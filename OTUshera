@@ -1,0 +1,185 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp20
+{
+    public enum Operations{
+        Sum,
+        Subtract,
+        Multiply,
+        Division,
+        Power
+    }
+    public partial class Form1 : Form
+    {
+        public Operations operations = Operations.Sum;
+        public int temporary = 0;
+        public bool op = false;
+        public bool text = true;
+        List<Button> buttons;
+        static int i = 0;
+        public Form1()
+        {
+            InitializeComponent();
+            buttons = new List<Button>() { button16, button7, button3, button4, button14,
+            button17, button8, button2, button5, button15, button18, button9, button1, button6, button13,
+            button19, button20, button10, button11, button12};
+          
+        }
+
+        private void number_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            if (textBox1.Text == "0" || text == false)
+            {
+                textBox1.Text = btn.Text;
+                text = true;
+            }
+            else
+                textBox1.Text = textBox1.Text + btn.Text;
+        }
+
+        private void operator_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            if (op == true && text == true)
+            {
+                if (operations == Operations.Sum)
+                {
+                    textBox1.Text = (temporary + int.Parse(textBox1.Text)).ToString();
+                }
+                if (operations == Operations.Subtract)
+                {
+                    textBox1.Text = (temporary - int.Parse(textBox1.Text)).ToString();
+                }
+                if (operations == Operations.Multiply)
+                {
+                    textBox1.Text = (temporary * int.Parse(textBox1.Text)).ToString();
+                }
+                if (operations == Operations.Division)
+                {
+                    textBox1.Text = (temporary / int.Parse(textBox1.Text)).ToString();
+                }
+                if (operations == Operations.Power)
+                {
+                    textBox1.Text = Math.Pow(temporary, int.Parse(textBox1.Text)).ToString();
+                }
+            }
+            temporary = int.Parse(textBox1.Text);
+            if (button.Text == "+")
+            {
+                operations = Operations.Sum;
+            }
+            if (button.Text == "-")
+            {
+                operations = Operations.Subtract;
+            }
+            if (button.Text == "*")
+            {
+                operations = Operations.Multiply;
+            }
+            if (button.Text == "/")
+            {
+                operations = Operations.Division;
+            }
+            if (button.Text == "x^y")
+            {
+                operations = Operations.Power;
+            }
+            op = true;
+            text = false;
+        }
+
+        private void result_Click(object sender, EventArgs e)
+        {
+            if (operations == Operations.Sum)
+            {
+                textBox1.Text = (temporary + int.Parse(textBox1.Text)).ToString();
+            }
+            if (operations == Operations.Subtract)
+            {
+                textBox1.Text = (temporary - int.Parse(textBox1.Text)).ToString();
+            }
+            if (operations == Operations.Multiply)
+            {
+                textBox1.Text = (temporary * int.Parse(textBox1.Text)).ToString();
+            }
+            if (operations == Operations.Division)
+            {
+                textBox1.Text = (temporary / int.Parse(textBox1.Text)).ToString();
+            }
+            if (operations == Operations.Power)
+            {
+                textBox1.Text = Math.Pow(temporary, int.Parse(textBox1.Text)).ToString();
+            }
+            op = false;
+            text = false;
+        }
+
+        private void sqrt_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = Math.Sqrt(double.Parse(textBox1.Text)).ToString();
+        }
+
+        private void ce_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "0";
+        }
+
+        private void c_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "0";
+            temporary = 0;
+            op = false;
+            text = false;
+        }
+
+        private void backspace_Click(object sender, EventArgs e)
+        {
+            string newtext = "";
+            if (textBox1.Text.Length == 1)
+            {
+                textBox1.Text = "0";
+            }
+            else
+            {
+                for (int i = 0; i < textBox1.Text.Length - 1; i++)
+                {
+                    newtext += textBox1.Text[i];
+                }
+                textBox1.Text = newtext;
+            }
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (i == buttons.Count-1) timer1.Enabled = false;
+            buttons[i++].Visible = true;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button21_Click_1(object sender, EventArgs e)
+        {
+            int val = int.Parse(textBox1.Text);
+            string bit = Convert.ToString(val, 2);
+            textBox1.Text = bit;
+        }
+    }
+}
